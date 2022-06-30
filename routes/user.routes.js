@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const User = require("../models/User.model");
-const fileUploader = require("../config/cloudinary.cofing");
+const fileUploader = require("../config/cloudinary.config");
 
 //ROUTES GO HERE
 
