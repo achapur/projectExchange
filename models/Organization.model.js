@@ -26,6 +26,6 @@ const organizationSchema = new Schema(
 }
 );
 
-const   Organization = model("Organization", userSchema);
+const   Organization = model("Organization", organizationSchema);
 
 module.exports = Organization;
