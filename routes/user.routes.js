@@ -5,7 +5,7 @@ const fileUploader = require("../config/cloudinary.config");
 //ROUTES GO HERE
 /* Edit USER get*/
 router.get("/edit-profile", (req, res, next) => {
-  // obtener al current user del request que fue almacenado gracias a express-session
+  // obtai current user out of our req.session
   const { user } = req.session;
   res.render("user/edit-user", user);
 });
@@ -27,7 +27,7 @@ router.post(
       { new: true }
     )
       .then((updatedUser) => {
-        //sobrescribir el user current req.session
+        //overwrite current req.session
         req.session.user = updatedUser;
         res.redirect("/user/my-profile");
       })

@@ -32,16 +32,13 @@ const userSchema = new Schema(
       enum: ["ADMIN", "STAFF", "USER"],
       default: "USER"
     },
-    followers: {
-        type:ObjectID,
-        Ref:"User"
-    },
-    following: {
-      type:ObjectiID,
-      Ref:"User"
-    },
-    timestamps: true
-  }
+    followers: [{type: Schema.Types.ObjectId,
+      ref: "User"}]
+    ,
+    following: [{type: Schema.Types.ObjectId,
+      ref: "User"}],
+  },
+  { timestamps: true }
 );
 
 const User = model("User", userSchema);
