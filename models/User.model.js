@@ -5,10 +5,9 @@ const userSchema = new Schema(
   {
   first_name: {
     type: String,
-    unique: true,
+
     required: true
   },
-  
     username: {
       type: String,
       unique: true,
@@ -25,23 +24,21 @@ const userSchema = new Schema(
     },
     profile_pic: {
       type: String,
-      default:"https://res.cloudinary.com/dhgfid3ej/image/upload/v1558806705/asdsadsa_iysw1l.jpg"
+      default:"https://res.cloudinary.com/dtdqsyryk/image/upload/v1656981437/profile_pic_ipfh2f.png"
     },
+    country_of_origin: [{type: Schema.Types.ObjectId, ref: "Country"}],
     role: {
       type: String,
       enum: ["ADMIN", "STAFF", "USER"],
       default: "USER"
     },
-    followers: {
-        type:ObjectID,
-        Ref:"User"
-    },
-    following: {
-      type:ObjectiID,
-      Ref:"User"
-    },
-    timestamps: true
-  }
+    followers: [{type: Schema.Types.ObjectId,
+      ref: "User"}]
+    ,
+    following: [{type: Schema.Types.ObjectId,
+      ref: "User"}],
+  },
+  { timestamps: true }
 );
 
 const User = model("User", userSchema);

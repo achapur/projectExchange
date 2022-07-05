@@ -1,11 +1,17 @@
 <form action="/auth/signup" method="POST">
-   <label> Username
+   <label> First Name
+      <input type="text" name="first_name">
+   </label>
+      <label> Username
       <input type="text" name="username">
    </label>
-   <label> Password
+      <label> Country of Origin
+      <input type="enum" name="country_of_origin">
+      {{!-- option con each --}}
+      <label> Password
       <input type="password" name="password">
    </label>
-
+   </label>
    <button type="submit">Submit</button>
 </form>
 
