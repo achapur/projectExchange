@@ -11,22 +11,21 @@ const countriesSchema = new Schema(
     population:Number,    
     flag_pic: {
       type: String,
-      default:"https://res.cloudinary.com/dhgfid3ej/image/upload/v1558806705/asdsadsa_iysw1l.jpg",
+      default:"https://emojipedia-us.s3.amazonaws.com/source/skype/289/white-flag_1f3f3-fe0f.png",
       required: true
+    },
+    language: {
+      type: String,
+      enum:["Bulgarian", "Croatian", "Cezch","Danish", "Dutch", "English","Estonian", "Finnish", "German", "Greek","Hungarian", "Irish", "Italian", "Latvian", "Maltese", "Polish", "Portuguese", "Romanian", "Slovak", "Slovenian","Spanish", "Swedish"],
+      default:"English"
     },
     cover_pic: {
       type: String,
-      default:"https://res.cloudinary.com/dhgfid3ej/image/upload/v1558806705/asdsadsa_iysw1l.jpg"
+      default:"https://res.cloudinary.com/dtdqsyryk/image/upload/v1656981017/worldexchangers_cover_zzkyik.png"
     },
-
     description: {
       type: String,
       required:true
-    },
-    rating: {
-      type: Number,
-      min: 0,
-      max: 5        
     },
     timestamps: true
     }
