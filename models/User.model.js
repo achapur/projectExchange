@@ -8,7 +8,6 @@ const userSchema = new Schema(
 
     required: true
   },
-  
     username: {
       type: String,
       unique: true,
@@ -27,6 +26,7 @@ const userSchema = new Schema(
       type: String,
       default:"https://res.cloudinary.com/dtdqsyryk/image/upload/v1656981437/profile_pic_ipfh2f.png"
     },
+    country_of_origin: [{type: Schema.Types.ObjectId, ref: "Country"}],
     role: {
       type: String,
       enum: ["ADMIN", "STAFF", "USER"],
