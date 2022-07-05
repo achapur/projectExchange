@@ -5,7 +5,7 @@ const userSchema = new Schema(
   {
   first_name: {
     type: String,
-    unique: true,
+
     required: true
   },
   
@@ -25,7 +25,7 @@ const userSchema = new Schema(
     },
     profile_pic: {
       type: String,
-      default:"https://res.cloudinary.com/dhgfid3ej/image/upload/v1558806705/asdsadsa_iysw1l.jpg"
+      default:"https://res.cloudinary.com/dtdqsyryk/image/upload/v1656981437/profile_pic_ipfh2f.png"
     },
     role: {
       type: String,
