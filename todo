@@ -1,0 +1,28 @@
+VIEWS:
+[ ] partials header
+[ ] partials footer
+[ ] ownProfile look (with currentSession buttons)
+[ ] otherProfile look
+[ ] ownOrganization ownProfile
+[ ] 
+
+MIDDLEWARE:
+[ ] hasAnOrganization
+[ ] hasCountries
+
+RESTCOUNTRIES API:
+[ ] list countries
+[ ] list countries by region
+[ ] country profile route
+
+ROUTES:
+[ ] get profile
+[ ] post profile
+[ ] edit profile
+[ ] delete profile
+
+
+///////////////////
+Comments? MODEL
+AUTOCOMPLETE? SEARCH para organizaciones
+DARKMODE
