@@ -9,7 +9,7 @@
 } */
 
 *, *:before, *:after {
-  box-sizing: inerit;
+  box-sizing: inherit;
 }
 
 body {
@@ -31,9 +31,9 @@ a {
 }
 
 .container {
-  margin-left: 50%;
-  margin-right: 50%;
-  width: 80%;
+width: 80%;
+margin-left: 5%;
+margin-right: 5%;
 }
 
 /* Navbar */
@@ -43,7 +43,7 @@ a {
 
 .navbar-content {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
 }
 

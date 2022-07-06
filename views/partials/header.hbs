@@ -1,18 +1,15 @@
 <header>
     <nav class="navbar">
         <div class="container navbar-content">
-            <img src="" alt="">
-            <h1>World Exchangers</h1>
+            <a href="/"><img src="https://res.cloudinary.com/dtdqsyryk/image/upload/v1657145056/we_logo_round_mxkchc.png" widgth="50" height="50" alt="">
+            <h1>World Exchangers</h1></a>
             <button class="btn-dark-mode"><i class="far fa-moon"></i>Dark Mode</button>
         </div>
     </nav> 
 </header>
 
 <script>
-   const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');nnif (prefersDarkScheme.matches) {n  document.body.classList.add('dark-theme');n} else {n  document.body.classList.remove('dark-theme');n}
-
     const btnDark = document.querySelector('.btn-dark-mode');
-
 btnDark.addEventListener('click', () => {
     document.body.classList.toggle('dark-theme')
     if(document.body.className === 'dark-theme'){
