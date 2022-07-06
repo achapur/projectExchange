@@ -1,11 +1,16 @@
-<nav class="navbar navbar-container">
-    <div class="container">
-        <h1>World Exchangers</h1>
-        <button class="btn-dark-mode"><i class="far fa-sun"></i><i class="far fa-moon"></i>Dark Mode</button>
-    </div>
-</nav>
+<header>
+    <nav class="navbar">
+        <div class="container navbar-content">
+            <img src="" alt="">
+            <h1>World Exchangers</h1>
+            <button class="btn-dark-mode"><i class="far fa-moon"></i>Dark Mode</button>
+        </div>
+    </nav> 
+</header>
 
 <script>
+   const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');nnif (prefersDarkScheme.matches) {n  document.body.classList.add('dark-theme');n} else {n  document.body.classList.remove('dark-theme');n}
+
     const btnDark = document.querySelector('.btn-dark-mode');
 
 btnDark.addEventListener('click', () => {

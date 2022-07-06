@@ -13,14 +13,11 @@ const express = require("express");
 
 // https://www.npmjs.com/package/hbs
 const hbs = require("hbs");
+hbs.registerPartials(__dirname+"/views/partials")
 
 const app = express();
 //   // HBS partials
-// const fs = require('fs');
-// hbs.registerPartial('myHeader', fs.readFileSync(__dirname + '/views/partials/header.hbs', 'utf8'));
-// hbs.registerPartial('myFooter', fs.readFileSync(__dirname + '/views/partials/footer.hbs', 'utf8'));
-// hbs.registerPartials(__dirname + "/views/partials");
-// const cors=require('cors')
+
 
 // ℹ️ This function is getting exported from the config folder. It runs most pieces of middleware
 require("./config")(app);
@@ -41,7 +38,7 @@ const authRoutes = require("./routes/auth.routes");
 app.use("/auth", authRoutes);
 
 const countryRoutes = require("./routes/country.routes");
-const { collection } = require("./models/User.model");
+// const { collection } = require("./models/User.model");
 app.use("/country", countryRoutes);
 
 
