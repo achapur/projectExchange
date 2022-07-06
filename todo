@@ -1,0 +1,26 @@
+VIEWS:
+[ ] partials header
+[ ] partials footer
+[ ] ownProfile look (with currentSession buttons)
+[ ] otherProfile look
+[ ] ownOrganization ownProfile
+[ ] 
+
+MIDDLEWARE:
+[ ] hasAnOrganization
+[ ] hasCountries
+
+RESTCOUNTRIES API:
+[ ] 
+[ ] 
+[ ] 
+
+ROUTES:
+[ ] get profile
+[ ] post profile
+[ ] edit profile
+[ ] delete profile
+
+///////////////////
+Comments? MODEL
+AUTOCOMPLETE? SEARCH

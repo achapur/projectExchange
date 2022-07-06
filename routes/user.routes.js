@@ -4,7 +4,7 @@ const fileUploader = require("../config/cloudinary.config");
 
 //ROUTES GO HERE
 /* Edit USER get*/
-router.get("/edit-profilgite", (req, res, next) => {
+router.get("/edit-profile", (req, res, next) => {
   // obtai current user out of our req.session
   const { user } = req.session;
   res.render("user/edit-user", user);

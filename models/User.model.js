@@ -26,7 +26,12 @@ const userSchema = new Schema(
       type: String,
       default:"https://res.cloudinary.com/dtdqsyryk/image/upload/v1656981437/profile_pic_ipfh2f.png"
     },
-    country_of_origin: [{type: Schema.Types.ObjectId, ref: "Country"}],
+    country_of_origin:  {
+      type: String,
+    },
+        country_of_exchange:  {
+      type: String,
+    },
     role: {
       type: String,
       enum: ["ADMIN", "STAFF", "USER"],
