@@ -4,7 +4,6 @@ VIEWS:
 [ ] ownProfile look (with currentSession buttons)
 [ ] otherProfile look
 [ ] ownOrganization ownProfile
-[ ] 
 
 MIDDLEWARE:
 [ ] hasAnOrganization
@@ -15,13 +14,20 @@ RESTCOUNTRIES API:
 [ ] list countries by region
 [ ] country profile route
 
-ROUTES:
+ROUTES USER:
+[ ] get user
+[ ] post user
+[ ] edit user
+[ ] delete user
+
+ROUTES PROYECTOS:
 [ ] get profile
 [ ] post profile
 [ ] edit profile
 [ ] delete profile
 
-
+HBS:
+[x] Partials WORK
 ///////////////////
 Comments? MODEL
 AUTOCOMPLETE? SEARCH para organizaciones
