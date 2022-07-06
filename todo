@@ -11,9 +11,9 @@ MIDDLEWARE:
 [ ] hasCountries
 
 RESTCOUNTRIES API:
-[ ] 
-[ ] 
-[ ] 
+[ ] list countries
+[ ] list countries by region
+[ ] country profile route
 
 ROUTES:
 [ ] get profile
@@ -21,6 +21,8 @@ ROUTES:
 [ ] edit profile
 [ ] delete profile
 
+
 ///////////////////
 Comments? MODEL
-AUTOCOMPLETE? SEARCH
+AUTOCOMPLETE? SEARCH para organizaciones
+DARKMODE

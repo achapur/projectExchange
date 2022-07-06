@@ -4,7 +4,6 @@ const isLoggedIn = require("../middleware/isLoggedIn");
 const axios = require("axios");
 
 
-
 //COUNTRIES LIST
 //All countries
     router.get("/list", (req, res, next) => {
@@ -105,7 +104,7 @@ const axios = require("axios");
             //North America
     router.get("/list/americas", (req, res, next) => {
       axios
-        .get("https://restcountries.com/v3.1/region/americas")
+        .get("https://restcountries.com/v3.1/all")
         .then((responseAxios) => {
         
           //.sort(function(a, b) 
@@ -120,4 +119,26 @@ const axios = require("axios");
           next(error);
         });
     });
+
+    //COUNTRY PROFILE
+    router.get("/:code", (req, res, next) => {
+                const {code} = req.params
+      axios
+        .get(`https://restcountries.com/v3.1/alpha/${code}`)
+        .then((responseAxios) => {
+        
+          //.sort(function(a, b) 
+
+          let singleCountry= responseAxios.data.map((country)=>{
+            return {code: country.cca3,name: country.name.common, flag: country.flags.png}   
+          })
+        console.log("respuesta de axios:", singleCountry);
+          res.render("country/profile", {singleCountry});
+        })
+        .catch((error) => {
+          next(error);
+        });
+    });
+
+
 module.exports = router;

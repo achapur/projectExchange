@@ -9,13 +9,18 @@ require("./db");
 // https://www.npmjs.com/package/express
 const express = require("express");
 
-// Handles the handlebars
+
+
 // https://www.npmjs.com/package/hbs
 const hbs = require("hbs");
 
 const app = express();
-
-const cors=require('cors')
+//   // HBS partials
+// const fs = require('fs');
+// hbs.registerPartial('myHeader', fs.readFileSync(__dirname + '/views/partials/header.hbs', 'utf8'));
+// hbs.registerPartial('myFooter', fs.readFileSync(__dirname + '/views/partials/footer.hbs', 'utf8'));
+// hbs.registerPartials(__dirname + "/views/partials");
+// const cors=require('cors')
 
 // ℹ️ This function is getting exported from the config folder. It runs most pieces of middleware
 require("./config")(app);
@@ -39,32 +44,7 @@ const countryRoutes = require("./routes/country.routes");
 const { collection } = require("./models/User.model");
 app.use("/country", countryRoutes);
 
-//Autocomplete?
-app.use(express.urlencoded({extended:true}))
-app.use(express.json())
-app.use(cors())
 
-app.get("/search", async(req,res)=>{
-    try{
-        let result = await collection.aggregate([
-            {
-                "$Search":{
-                    "autocomplete":{
-                        "query": `${request.query.query}`,
-                        "path": "name.common",
-                        "fuzzy": {
-                            "maxEdits": 2,
-                            "prefixLength": 3
-                        }
-                    }
-                }
-            }
-        ]).toArray()
-        this.response.send(result)
-      } catch (error){
-          response.status(500).send({message: error.message})
-      }
-})
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
