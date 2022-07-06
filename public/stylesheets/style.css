@@ -18,6 +18,9 @@ body {
   font: 14px "Nunito Sans", sans-serif;
   color: var(--color-text);
   background-color: var(--color-bg);
+  width: 80%;
+margin-left: 5%;
+margin-right: 5%;
 }
 
 body.dark-theme {
@@ -43,7 +46,7 @@ margin-right: 5%;
 
 .navbar-content {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
 }
 

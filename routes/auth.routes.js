@@ -14,11 +14,11 @@ const User = require("../models/User.model");
 const isLoggedOut = require("../middleware/isLoggedOut");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
-router.get("/signup", isLoggedOut, (req, res) => {
+router.get("/signup",  (req, res) => {
   res.render("auth/signup");
 });
 
-router.post("/signup", isLoggedOut, (req, res) => {
+router.post("/signup", (req, res) => {
   const { username, password } = req.body;
 
   if (!username) {
@@ -27,9 +27,9 @@ router.post("/signup", isLoggedOut, (req, res) => {
     });
   }
 
-  if (password.length < 8) {
+  if (password.length < 5) {
     return res.status(400).render("auth/signup", {
-      errorMessage: "Your password needs to be at least 8 characters long.",
+      errorMessage: "Your password needs to be at least 5 characters long.",
     });
   }
 
@@ -79,7 +79,7 @@ router.post("/signup", isLoggedOut, (req, res) => {
         if (error.code === 11000) {
           return res.status(400).render("auth/signup", {
             errorMessage:
-              "Username need to be unique. The username you chose is already in use.",
+              "Username needs to be unique. The username you chose is already in use.",
           });
         }
         return res
