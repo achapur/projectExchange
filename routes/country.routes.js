@@ -121,7 +121,7 @@ const async = require("hbs/lib/async");
         });
     });
 
-    //COUNTRY PROFILE
+    // COUNTRY PROFILE
     
     router.get("/:code", async (req, res, next) => {
                 const {code} = req.params
@@ -132,9 +132,9 @@ try {
     // singleCountry2.map(country => {country.name})
     const {data} = singleCountry2
     let miObject =   data.map(country=>{
-      return {name: country.name.common, flag: country.flags.png}       
+    return {name: country.name.common, flag: country.flags.png}       
     })
-    console.log(data)
+    console.log(singleCountry2)
     res.render("country/profile", {miObject});
     } catch (error) {
         console.log(error)
