@@ -19,7 +19,7 @@ router.get("/signup",  (req, res) => {
 });
 
 router.post("/signup", (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, first_name, email } = req.body;
 
   if (!username) {
     return res.status(400).render("auth/signup", {
@@ -63,12 +63,14 @@ router.post("/signup", (req, res) => {
         return User.create({
           username,
           password: hashedPassword,
+          first_name,
+          email,
         });
       })
       .then((user) => {
         // Bind the user to the session object
         req.session.user = user;
-        res.redirect("/",user);
+        res.redirect("/");
       })
       .catch((error) => {
         if (error instanceof mongoose.Error.ValidationError) {
@@ -76,12 +78,13 @@ router.post("/signup", (req, res) => {
             .status(400)
             .render("auth/signup", { errorMessage: error.message });
         }
-        if (error.code === 11000) {
-          return res.status(400).render("auth/signup", {
-            errorMessage:
-              "Username needs to be unique. The username you chose is already in use.",
-          });
-        }
+                    console.log(error.code)
+        // if (error.code === 11000) {
+        //   return res.status(400).render("auth/signup", {
+        //     errorMessage:
+        //       "Username needs to be unique. The username you chose is already in use.",
+        //   });
+        // }
         return res
           .status(500)
           .render("auth/signup", { errorMessage: error.message });
@@ -104,9 +107,9 @@ router.post("/login", isLoggedOut, (req, res, next) => {
 
   // Here we use the same logic as above
   // - either length based parameters or we check the strength of a password
-  if (password.length < 8) {
+  if (password.length < 5) {
     return res.status(400).render("auth/login", {
-      errorMessage: "Your password needs to be at least 8 characters long.",
+      errorMessage: "Your password needs to be at least 5 characters long.",
     });
   }
 

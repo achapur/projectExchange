@@ -24,7 +24,7 @@ MIDDLEWARE:
 [ ] hasCountries
 
 RESTCOUNTRIES API:
-[ ] list countries
+[ ] list countries 
 [ ] list countries by region
 [ ] country profile route
 

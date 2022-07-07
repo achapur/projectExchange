@@ -63,3 +63,13 @@ margin-right: 5%;
 .btn-dark-mode:hover {
     opacity: 0.6;
 }
+
+.headerIcons {
+
+}
+.headerIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: #eee 3px solid;
+}
