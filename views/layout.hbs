@@ -13,7 +13,23 @@
   </head>
   <body>
 
-{{> header }}
+<header>
+    <nav class="navbar">
+        <div class="container navbar-content">
+
+    <div>            <a href="/"><img src="https://res.cloudinary.com/dtdqsyryk/image/upload/v1657145056/we_logo_round_mxkchc.png" widgth="50" height="50" alt=""></a></div>
+    <div class="headerIcons"></div>
+        {{#if user}}
+        <button class="btn-dark-mode"><i class="far fa-moon"></i>Dark Mode</button>
+        {{user.username}}  <a href="/user/my-profile"><img class="headerIcon" src="{{user.profile_pic}}" alt=""></a>
+      
+            <a href="/auth/logout">Log Out</a>
+        {{/if}}
+
+        </div>
+    </nav> 
+</header>
+
 
 {{{ body }}}
 

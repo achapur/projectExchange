@@ -1,17 +1,19 @@
 <form action="/auth/signup" method="POST">
+<br>
    <label> First Name
-      <input type="text" name="first_name">
-   </label>
+      <input type="text" name="first_name" required>
+   </label><br>
       <label> Username
       <input type="text" name="username">
-   </label>
-      <label> Country of Origin
-      <input type="enum" name="country_of_origin">
-      {{!-- option con each --}}
+   </label><br>
+      <label>Email
+    <input type="email" name="email" />
+  </label><br>
+
       <label> Password
       <input type="password" name="password">
    </label>
-   </label>
+<br>
    <button type="submit">Submit</button>
 </form>
 
