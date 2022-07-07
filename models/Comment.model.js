@@ -8,11 +8,8 @@ const commentSchema = new Schema(
     required: true
   },
     content:String,    
-    Date: {
-      type: String,
-      default:"https://emojipedia-us.s3.amazonaws.com/source/skype/289/white-flag_1f3f3-fe0f.png",
-      required: true
-    },
+    _organization_name: String,
+    _country_of_origin: String,
     timestamps: true
     }
 );
