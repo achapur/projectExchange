@@ -7,10 +7,11 @@ const commentSchema = new Schema(
     type: String,
     required: true
   },
+    title: String,
     content:String,    
     _organization_name: String,
     _country_of_origin: String,
-    timestamps: true
+// { timestamps: true }
     }
 );
 
