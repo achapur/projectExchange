@@ -41,6 +41,9 @@ const countryRoutes = require("./routes/country.routes");
 // const { collection } = require("./models/User.model");
 app.use("/country", countryRoutes);
 
+const commentRoutes = require("./routes/comment.routes");
+app.use("/comment", commentRoutes);
+
 // const organizationRoutes = require("./routes/organization.routes");
 // app.use("/org", organizationRoutes);
 
