@@ -5,17 +5,19 @@ const userSchema = new Schema(
   {
   first_name: {
     type: String,
-
-    required: true
+    max: 30
   },
     username: {
       type: String,
       unique: true,
-      required: true
+      trim: true,
+      required: true,
+      lowercase: true
     },
     email: {
       type: String,
       unique: true,
+      trim: true,
       required: true
     },
     password: {
@@ -26,15 +28,17 @@ const userSchema = new Schema(
       type: String,
       default:"https://res.cloudinary.com/dtdqsyryk/image/upload/v1656981437/profile_pic_ipfh2f.png"
     },
-    country_of_origin:  {
+    home_country:  {
       type: String,
     },
-        country_of_exchange:  {
+      host_country:  {
       type: String,
     },
+      organization: [{type: Schema.Types.ObjectId,
+    ref: "Organization"}],
     role: {
       type: String,
-      enum: ["ADMIN", "STAFF", "USER"],
+      enum: ["ADMIN", "ORG", "USER"],
       default: "USER"
     },
     followers: [{type: Schema.Types.ObjectId,
@@ -42,6 +46,10 @@ const userSchema = new Schema(
     ,
     following: [{type: Schema.Types.ObjectId,
       ref: "User"}],
+    _organization: [{
+      type: Schema.Types.ObjectId,
+      ref: "Organization"
+    }]
   },
   { timestamps: true }
 );

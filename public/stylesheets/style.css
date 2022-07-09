@@ -1,7 +1,9 @@
 :root {
-  --color-bg: #fafafa;
-  --color-bg-secondary: #ffffff;
-  --color-text: #000000;
+  --color-bg: #202d36;
+  --color-bg-secondary: #2B3743;
+  --color-text: #ffffff;
+  --color-anchor: #0078D7;
+  --color-anchor-hover: #16C60C;
 }
 
 /* html {
@@ -9,7 +11,7 @@
 } */
 
 *, *:before, *:after {
-  box-sizing: inerit;
+  box-sizing: inherit;
 }
 
 body {
@@ -18,22 +20,25 @@ body {
   font: 14px "Nunito Sans", sans-serif;
   color: var(--color-text);
   background-color: var(--color-bg);
+  width: 80%;
+margin-left: 5%;
+margin-right: 5%;
 }
 
-body.dark-theme {
-    --color-bg: #202D36;
-    --color-bg-secondary: #2B3743;
-    --color-text:#ffffff;
-}
+
 
 a {
-  color: #00b7ff;
+  color: var(--color-anchor);
+}
+
+a:hover{
+  color: var(--color-anchor-hover);
 }
 
 .container {
-  margin-left: 50%;
-  margin-right: 50%;
-  width: 80%;
+width: 80%;
+margin-left: 5%;
+margin-right: 5%;
 }
 
 /* Navbar */
@@ -59,4 +64,14 @@ a {
 
 .btn-dark-mode:hover {
     opacity: 0.6;
+}
+
+.headerIcons {
+
+}
+.headerIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: #eee 3px solid;
 }
