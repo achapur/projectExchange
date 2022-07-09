@@ -5,6 +5,27 @@ const fileUploader = require("../config/cloudinary.config");
 const { populate } = require("../models/User.model");
 
 //ROUTES GO HERE
+/* Look at current USER profile*/
+router.get("/my-profile", (req, res, next) => {
+  
+  const { user } = req.session;
+  res.render("user/profile", user);
+});
+
+/* Look at other USER profile*/
+router.get('/:username',(req,res,next)=>{
+  const {username} = req.params;
+
+  User.findById(id)
+  .then((user)=>{
+      Player.findOne({'_owner':`${id}`})
+      .then((player=>{
+      res.render('player/main.player.hbs',{user , player , id});
+  }))
+  })
+  .catch(error=>console.log('error',error))
+})
+
 /* Edit USER get*/
 router.get("/edit-user", (req, res, next) => {
   // obtain current user out of our req.session
@@ -39,27 +60,7 @@ router.post(
       });
   }
 );
-/* Look at current USER profile*/
-router.get("/my-profile", (req, res, next) => {
-  
-  const { user } = req.session;
-  res.render("user/profile", user);
-});
 
-//**********ROUTE FOR DETAILS DOG */
-router.get("/profile/:id", (req, res, next) => {
-  const { id } = req.params;
-
-  User.findById(id)
-    .then((otherUser) => {
-
-      res.render("/user/other-profile/", { user: otherUser}); //
-    })
-    .catch((error) => {
-      console.log("Error", error);
-      next();
-    });
-});
 
 // GET route to retrieve and display details of a specific book
 // router.get('/books/:bookId', (req, res, next) => {

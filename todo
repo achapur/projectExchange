@@ -22,6 +22,7 @@ VIEWS:
 MIDDLEWARE:
 [ ] hasAnOrganization
 [ ] hasCountries
+[ ] you can only see your own org
 
 RESTCOUNTRIES API:
 [ ] list countries 

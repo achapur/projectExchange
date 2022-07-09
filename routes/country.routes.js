@@ -53,7 +53,7 @@ const async = require("hbs/lib/async");
         
           //.sort(function(a, b) 
           let countries= responseAxios.data.map((country)=>{
-            return {name: country.name.common, flag: country.flags.png}       
+            return {name: country.name.common, flag: country.flags.png, population: country.population, }       
           })
 
                 console.log("respuesta de axios:", countries);
@@ -110,7 +110,7 @@ const async = require("hbs/lib/async");
         
           //.sort(function(a, b) 
           let countries= responseAxios.data.map((country)=>{
-            return {name: country.name.common, flag: country.flags.png}       
+            return no     
           })
 
                 console.log("respuesta de axios:", countries);
@@ -127,7 +127,7 @@ const async = require("hbs/lib/async");
                 const {code} = req.params
 let miObject = {}
 try {
-        const singleCountry2 = await axios.get(`https://restcountries.com/v3.1/alpha/${code}`)
+        const singleCountry2 = await axios.get(`  `)
     //let miObject = {name, country, population, flag,code}
     // singleCountry2.map(country => {country.name})
     const {data} = singleCountry2

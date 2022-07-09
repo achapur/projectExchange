@@ -4,32 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>{{appTitle}}</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@500;600;800&display=swap" rel="stylesheet">
-     <!--Import font awesome-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-    <link rel="stylesheet" href="/stylesheets/style.css" />
-
+      <link rel="icon" type="image/x-icon" href="https://res.cloudinary.com/dtdqsyryk/image/upload/v1657145056/we_logo_round_mxkchc.png">
+    <link rel="stylesheet" href="/stylesheets/style.css">
   </head>
   <body>
 
-<header>
-    <nav class="navbar">
-        <div class="container navbar-content">
-
-    <div>            <a href="/"><img src="https://res.cloudinary.com/dtdqsyryk/image/upload/v1657145056/we_logo_round_mxkchc.png" widgth="50" height="50" alt=""></a></div>
-    <div class="headerIcons"></div>
-        {{#if user}}
-        <button class="btn-dark-mode"><i class="far fa-moon"></i>Dark Mode</button>
-        {{user.username}}  <a href="/user/my-profile"><img class="headerIcon" src="{{user.profile_pic}}" alt=""></a>
-      
-            <a href="/auth/logout">Log Out</a>
-        {{/if}}
-
-        </div>
-    </nav> 
-</header>
-
+{{> header}}
 
 {{{ body }}}
 

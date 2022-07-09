@@ -3,28 +3,40 @@ const { Schema, model } = require("mongoose");
 // TODO: Please make sure you edit the user model to whatever makes sense in this case
 const organizationSchema = new Schema(
   {
-    name: {
+    org_name: {
       type: String,
       unique: true,
       required: true
     },
-    logo: {
+    org_logo: {
       type: String,
       required: true
     },
-    slogan:{ type: String},
+    home_country:  {
+      type: String,
+    },
+    slogan: {
+      type: String
+    },
     main_language: {
       type: String,
-      enum:["Bulgarian", "Croatian", "Cezch","Danish", "Dutch", "English","Estonian", "Finnish", "German", "Greek","Hungarian", "Irish", "Italian", "Latvian", "Maltese", "Polish", "Portuguese", "Romanian", "Slovak", "Slovenian","Spanish", "Swedish"],
+      enum:[ "Arabic", "Bengali", "Bulgarian", "Croatian", "Cezch","Danish", "Dutch", "English","Estonian", "Finnish", "German", "Greek","Hindi","Hungarian", "Irish", "Italian", "Javanese", "Japanese", "Latvian", "Korean", "Malay", "Maltese","Mandarin", "Polish", "Portuguese", "Pubjabi", "Romanian", "Russian", "Slovak", "Slovenian","Spanish", "Swedish", "Telugu", "Thai", "Turkish", "Wu"],
       default:"English"
     },
     description: {
       type: String,
       required: true
     },
-    timestamps: true
-}
-);
+    websiteURL: {
+      type: String,
+    }},
+    { timestamps: true }
+  );
+
+organizationSchema.path('websiteURL').validate((val) => {
+  urlRegex = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-/]))?/;
+  return urlRegex.test(val);
+}, 'Invalid URL.');
 
 const   Organization = model("Organization", organizationSchema);
 

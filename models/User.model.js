@@ -11,7 +11,8 @@ const userSchema = new Schema(
       type: String,
       unique: true,
       trim: true,
-      required: true
+      required: true,
+      lowercase: true
     },
     email: {
       type: String,
@@ -37,7 +38,7 @@ const userSchema = new Schema(
     ref: "Organization"}],
     role: {
       type: String,
-      enum: ["ADMIN", "STAFF", "USER"],
+      enum: ["ADMIN", "ORG", "USER"],
       default: "USER"
     },
     followers: [{type: Schema.Types.ObjectId,
@@ -45,6 +46,10 @@ const userSchema = new Schema(
     ,
     following: [{type: Schema.Types.ObjectId,
       ref: "User"}],
+    _organization: [{
+      type: Schema.Types.ObjectId,
+      ref: "Organization"
+    }]
   },
   { timestamps: true }
 );
