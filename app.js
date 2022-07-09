@@ -23,9 +23,9 @@ const app = express();
 require("./config")(app);
 
 const capitalized = require("./utils/capitalized");
-const projectName = "project";
+const projectName = "World Exchangers";
 
-app.locals.appTitle = `${capitalized(projectName)} created with IronLauncher`;
+app.locals.appTitle = `${capitalized(projectName)}`;
 
 // 👇 Start handling routes here
 const index = require("./routes/index.routes");
@@ -41,12 +41,12 @@ const countryRoutes = require("./routes/country.routes");
 // const { collection } = require("./models/User.model");
 app.use("/country", countryRoutes);
 
-const commentRoutes = require("./routes/comment.routes");
-app.use("/comment", commentRoutes);
-
-
+// const organizationRoutes = require("./routes/organization.routes");
+// app.use("/org", organizationRoutes);
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
+
+
 
 module.exports = app;
