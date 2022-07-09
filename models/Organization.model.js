@@ -29,10 +29,9 @@ const organizationSchema = new Schema(
     },
     websiteURL: {
       type: String,
-    },
-    timestamps: true
-}
-);
+    }},
+    { timestamps: true }
+  );
 
 organizationSchema.path('websiteURL').validate((val) => {
   urlRegex = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-/]))?/;

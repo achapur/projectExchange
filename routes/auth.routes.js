@@ -9,6 +9,7 @@ const saltRounds = 10;
 
 // Require the User model in order to interact with the database
 const User = require("../models/User.model");
+const Organization = require("../models/Organization.model");
 
 // Require necessary (isLoggedOut and isLiggedIn) middleware in order to control access to specific routes
 const isLoggedOut = require("../middleware/isLoggedOut");
@@ -132,6 +133,7 @@ router.post("/login", isLoggedOut, (req, res, next) => {
         }
         req.session.user = user;
         // req.session.user = user._id; // ! better and safer but in this case we saving the entire user object
+        //HERE I COULD ADD REDIRECTS DEPENDING ON USER ROLE
         return res.redirect("/");
       });
     })
@@ -154,5 +156,20 @@ router.get("/logout", isLoggedIn, (req, res) => {
     res.redirect("/");
   });
 });
+
+//ADMIN ROUTES
+//Full list of Users
+// router.get("/listUsers",checkRole(['ADMIN']),(req, res,next)=>{
+//   User.find()
+//   .populate('_organization')
+//   .then((users) => {
+//       res.render("listUsers", { users });
+//   })
+//   .catch((error) => {
+//       console.log("error", error);
+//       next();
+//   });
+// });
+
 
 module.exports = router;
