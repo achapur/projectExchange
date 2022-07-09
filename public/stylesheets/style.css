@@ -1,7 +1,9 @@
 :root {
-  --color-bg: #fafafa;
-  --color-bg-secondary: #ffffff;
-  --color-text: #000000;
+  --color-bg: #202d36;
+  --color-bg-secondary: #2B3743;
+  --color-text: #ffffff;
+  --color-anchor: #0078D7;
+  --color-anchor-hover: #16C60C;
 }
 
 /* html {
@@ -23,14 +25,14 @@ margin-left: 5%;
 margin-right: 5%;
 }
 
-body.dark-theme {
-    --color-bg: #202D36;
-    --color-bg-secondary: #2B3743;
-    --color-text:#ffffff;
-}
+
 
 a {
-  color: #00b7ff;
+  color: var(--color-anchor);
+}
+
+a:hover{
+  color: var(--color-anchor-hover);
 }
 
 .container {
