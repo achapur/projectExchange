@@ -12,7 +12,7 @@ const organizationSchema = new Schema(
       type: String,
       required: true
     },
-    home_country:  {
+    _home_country:  {
       type: String,
     },
     slogan: {
