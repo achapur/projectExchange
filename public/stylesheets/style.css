@@ -1,12 +1,77 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+:root {
+  --color-bg: #202d36;
+  --color-bg-secondary: #2B3743;
+  --color-text: #ffffff;
+  --color-anchor: #0078D7;
+  --color-anchor-hover: #16C60C;
 }
+
+/* html {
+  box-sizing: border-box;
+} */
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: 'Nunito Sans', sans-serif;
+  padding: 50px;
+  font: 14px "Nunito Sans", sans-serif;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  width: 80%;
+margin-left: 5%;
+margin-right: 5%;
+}
+
+
 
 a {
-  color: #00b7ff;
+  color: var(--color-anchor);
 }
 
-h1 {
-  color: 15px;
+a:hover{
+  color: var(--color-anchor-hover);
+}
+
+.container {
+width: 80%;
+margin-left: 5%;
+margin-right: 5%;
+}
+
+/* Navbar */
+.navbar {
+    background-color: var(--color-bg-secondary);
+}
+
+.navbar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-dark-mode {
+    background-color: var(--color-bg-secondary);
+    opacity: 1;
+    transition: .3s;
+    color: var(--color-text);
+    border: none;
+    cursor: pointer;
+    outline: none; 
+}
+
+.btn-dark-mode:hover {
+    opacity: 0.6;
+}
+
+.headerIcons {
+
+}
+.headerIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: #eee 3px solid;
 }

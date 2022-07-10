@@ -9,17 +9,18 @@ const saltRounds = 10;
 
 // Require the User model in order to interact with the database
 const User = require("../models/User.model");
+const Organization = require("../models/Organization.model");
 
 // Require necessary (isLoggedOut and isLiggedIn) middleware in order to control access to specific routes
 const isLoggedOut = require("../middleware/isLoggedOut");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
-router.get("/signup", isLoggedOut, (req, res) => {
+router.get("/signup",  (req, res) => {
   res.render("auth/signup");
 });
 
-router.post("/signup", isLoggedOut, (req, res) => {
-  const { username, password } = req.body;
+router.post("/signup", (req, res) => {
+  const { username, password, first_name, email } = req.body;
 
   if (!username) {
     return res.status(400).render("auth/signup", {
@@ -27,9 +28,9 @@ router.post("/signup", isLoggedOut, (req, res) => {
     });
   }
 
-  if (password.length < 8) {
+  if (password.length < 5) {
     return res.status(400).render("auth/signup", {
-      errorMessage: "Your password needs to be at least 8 characters long.",
+      errorMessage: "Your password needs to be at least 5 characters long.",
     });
   }
 
@@ -63,6 +64,8 @@ router.post("/signup", isLoggedOut, (req, res) => {
         return User.create({
           username,
           password: hashedPassword,
+          first_name,
+          email,
         });
       })
       .then((user) => {
@@ -76,12 +79,13 @@ router.post("/signup", isLoggedOut, (req, res) => {
             .status(400)
             .render("auth/signup", { errorMessage: error.message });
         }
-        if (error.code === 11000) {
-          return res.status(400).render("auth/signup", {
-            errorMessage:
-              "Username need to be unique. The username you chose is already in use.",
-          });
-        }
+                    console.log(error.code)
+        // if (error.code === 11000) {
+        //   return res.status(400).render("auth/signup", {
+        //     errorMessage:
+        //       "Username needs to be unique. The username you chose is already in use.",
+        //   });
+        // }
         return res
           .status(500)
           .render("auth/signup", { errorMessage: error.message });
@@ -104,9 +108,9 @@ router.post("/login", isLoggedOut, (req, res, next) => {
 
   // Here we use the same logic as above
   // - either length based parameters or we check the strength of a password
-  if (password.length < 8) {
+  if (password.length < 5) {
     return res.status(400).render("auth/login", {
-      errorMessage: "Your password needs to be at least 8 characters long.",
+      errorMessage: "Your password needs to be at least 5 characters long.",
     });
   }
 
@@ -129,6 +133,7 @@ router.post("/login", isLoggedOut, (req, res, next) => {
         }
         req.session.user = user;
         // req.session.user = user._id; // ! better and safer but in this case we saving the entire user object
+        //HERE I COULD ADD REDIRECTS DEPENDING ON USER ROLE
         return res.redirect("/");
       });
     })
@@ -137,7 +142,7 @@ router.post("/login", isLoggedOut, (req, res, next) => {
       // in this case we are sending the error handling to the error handling middleware that is defined in the error handling file
       // you can just as easily run the res.status that is commented out below
       next(err);
-      // return res.status(500).render("login", { errorMessage: err.message });
+      return res.status(500).render("login", { errorMessage: err.message });
     });
 });
 
@@ -151,5 +156,20 @@ router.get("/logout", isLoggedIn, (req, res) => {
     res.redirect("/");
   });
 });
+
+//ADMIN ROUTES
+//Full list of Users
+// router.get("/listUsers",checkRole(['ADMIN']),(req, res,next)=>{
+//   User.find()
+//   .populate('_organization')
+//   .then((users) => {
+//       res.render("listUsers", { users });
+//   })
+//   .catch((error) => {
+//       console.log("error", error);
+//       next();
+//   });
+// });
+
 
 module.exports = router;
