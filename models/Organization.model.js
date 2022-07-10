@@ -6,17 +6,19 @@ const organizationSchema = new Schema(
     org_name: {
       type: String,
       unique: true,
-      required: true
+      required: true,
+      max: 30
     },
     org_logo: {
       type: String,
-      required: true
+      default:"/public/images/we_logo_round_mxkchc.png"
     },
     _home_country:  {
-      type: String,
-    },
+      type: Schema.Types.ObjectId,
+        ref: "Country"},
     slogan: {
-      type: String
+      type: String,
+      max: 60
     },
     main_language: {
       type: String,
@@ -25,7 +27,8 @@ const organizationSchema = new Schema(
     },
     description: {
       type: String,
-      required: true
+      required: true,
+      max: 300
     },
     websiteURL: {
       type: String,
