@@ -25,10 +25,9 @@ router.get("/signup",  (req, res) => {
 
 //get sign up step 2 USER
 router.get("/signup/student/:id", checkRole(["USER","ADMIN"]), (req, res, next) => {
-  const {id} =req.params;
+  const {id} =req.params
 
-  User
-  .findByIdAndUpdate(id)
+  User.findByIdAndUpdate(`${id}`)
   .then((user)=>{
     Country
     .find({id})
@@ -47,10 +46,12 @@ router.get("/signup/student/:id", checkRole(["USER","ADMIN"]), (req, res, next) 
   })
 });
 
+
+
 //get sign up step 2 ORGANIZATION
-router.get("/signup/organization", checkRole(["ORGANIZATION","ADMIN"]),  (req, res) => {
-  res.render("auth/signup-org");
-});
+// router.get("/signup/organization", checkRole(["ORGANIZATION","ADMIN"]),  (req, res) => {
+//   res.render("auth/signup-org");
+// });
 
 //post sign up step 1
 router.post("/signup", (req, res) => {
@@ -109,6 +110,7 @@ router.post("/signup", (req, res) => {
         if (user.role === "USER"){
           req.session.user= user;
           const {id} =req.params;
+          console.log(user.role)
           res.redirect("/auth/signup/student/:id")};
         if (user.role === "ORGANIZATION"){
           req.session.user= user;
@@ -154,6 +156,7 @@ router.post("/signup/student/:id", (req,res,next)=>{
 }
 );
 //post sign up step 2 ORGANIZATION
+//TODO
 
 //get login
 router.get("/login", isLoggedOut, (req, res) => {

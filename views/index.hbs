@@ -2,14 +2,11 @@
 
 <h1>Welcome {{user.first_name}}🌍</h1>
 
+{{#unless user._home_country}}
+Please select a home and host country! 
+<a href="/auth/signup/student/{{
+user._id}}">Go</a>
+{{/unless}} 
 <br>
 <h6>Countries:</h6>
 <button><a href="/country/list/">All countries</a></button>
-<button><a href="/country/list/africa">Africa</a></button>
-<button><a href="/country/list/americas">Americas</a></button>
-<button><a href="/country/list/Asia">Asia</a></button>
-<button><a href="/country/list/europe">Europe</a></button>
-<button><a href="/country/list/oceania">Oceania</a></button>
-<br>
-<button><a href="/country/mex">LOOK AT MEXICO</a></button>
-

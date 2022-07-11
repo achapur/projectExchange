@@ -6,25 +6,23 @@
   --color-anchor-hover: #16C60C;
 }
 
-/* html {
-  box-sizing: border-box;
-} */
 
-*, *:before, *:after {
+/* *, *:before, *:after {
   box-sizing: inherit;
-}
+} */
+/* 
+h1,h2,h3,h4,h5,h6,p,b,a {
+  
+  font-family: 'Nunito Sans', sans-serif;
+} */
 
 body {
   font-family: 'Nunito Sans', sans-serif;
   padding: 50px;
-  font: 14px "Nunito Sans", sans-serif;
+  font: 16px "Nunito Sans", sans-serif;
   color: var(--color-text);
   background-color: var(--color-bg);
-  width: 80%;
-margin-left: 5%;
-margin-right: 5%;
 }
-
 
 
 a {
@@ -35,43 +33,63 @@ a:hover{
   color: var(--color-anchor-hover);
 }
 
-.container {
+/* .container {
 width: 80%;
 margin-left: 5%;
 margin-right: 5%;
-}
+} */
 
-/* Navbar */
-.navbar {
-    background-color: var(--color-bg-secondary);
-}
 
-.navbar-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.btn-dark-mode {
-    background-color: var(--color-bg-secondary);
-    opacity: 1;
-    transition: .3s;
-    color: var(--color-text);
-    border: none;
-    cursor: pointer;
-    outline: none; 
-}
-
-.btn-dark-mode:hover {
-    opacity: 0.6;
-}
-
-.headerIcons {
-
-}
 .headerIcon {
   width: 32px;
   height: 32px;
   border-radius: 50%;
   border: #eee 3px solid;
 }
+
+/* UIKIT */
+.homeBg {
+  background:  url(/images/temporalbackground.jpg) no-repeat center center fixed; 
+  background-blend-mode:multiply;
+  background-color: var(--color-bg);
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.center {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.center div {
+  background-color: #ffffff96;
+  width: 600px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-container {
+  display: flex;
+  height: 100%;
+}
+
+.flex-child {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  flex: 1;
+}  
+
+.flex-child:first-child {
+  margin-right: 20px;
+} 
+.flex-child:last-child {
+  margin-right: 20px;
+  background-color: wheat;
+} 

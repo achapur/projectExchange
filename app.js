@@ -37,8 +37,10 @@ const authRoutes = require("./routes/auth.routes");
 app.use("/auth", authRoutes);
 
 const countryRoutes = require("./routes/country.routes");
-// const { collection } = require("./models/User.model");
 app.use("/country", countryRoutes);
+
+const orgRoutes = require("./routes/org.routes");
+app.use("/org", orgRoutes);
 
 // const organizationRoutes = require("./routes/organization.routes");
 // app.use("/org", organizationRoutes);

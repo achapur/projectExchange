@@ -13,7 +13,7 @@ const organizationSchema = new Schema(
       type: String,
       default:"/public/images/we_logo_round_mxkchc.png"
     },
-    _home_country:  {
+    _org_country:  {
       type: Schema.Types.ObjectId,
         ref: "Country"},
     slogan: {
@@ -32,7 +32,16 @@ const organizationSchema = new Schema(
     },
     websiteURL: {
       type: String,
-    }},
+    },
+    _org_owner: {
+      type: Schema.Types.ObjectId,
+      ref: "User"
+    },
+    _students: [{
+      type: Schema.Types.ObjectId,
+      ref: "User"
+    }]
+  },
     { timestamps: true }
   );
 

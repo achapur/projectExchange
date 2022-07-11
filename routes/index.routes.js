@@ -1,7 +1,5 @@
 const router = require("express").Router();
 const isLoggedIn = require("../middleware/isLoggedIn");
-//para axios
-const axios = require("axios");
 
 
 //If you are not logged in as User or Organization, you go to Landing Page

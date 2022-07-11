@@ -11,7 +11,17 @@ const countrySchema = new Schema(
     timezones: {type:Object},
     continents: {type:Object},
     flags: {type:Object},
-    population: {type:String}},{
+    population: {type:String},
+    _students: [{
+      type: Schema.Types.ObjectId,
+      ref: "User"
+    }],
+    _organizations: [{
+      type: Schema.Types.ObjectId,
+      ref: "User"
+    }]
+  },
+    {
     timestamps: true
     }
 );
