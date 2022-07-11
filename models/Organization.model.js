@@ -8,7 +8,7 @@ const organizationSchema = new Schema(
       unique: true,
       required: true,
       max: 30
-    },
+  },
     org_logo: {
       type: String,
       default:"/public/images/we_logo_round_mxkchc.png"

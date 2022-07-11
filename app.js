@@ -16,8 +16,6 @@ const hbs = require("hbs");
 hbs.registerPartials(__dirname+"/views/partials")
 
 const app = express();
-//   // HBS partials
-
 
 // ℹ️ This function is getting exported from the config folder. It runs most pieces of middleware
 require("./config")(app);
@@ -26,6 +24,7 @@ const capitalized = require("./utils/capitalized");
 const projectName = "World Exchangers";
 
 app.locals.appTitle = `${capitalized(projectName)}`;
+
 
 // 👇 Start handling routes here
 const index = require("./routes/index.routes");

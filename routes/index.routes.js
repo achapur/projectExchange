@@ -11,7 +11,7 @@ router.get("/landing", (req, res, next) => {
 
 /* lets you see homepage if you are logged in */
 router.get("/",isLoggedIn, (req, res, next) => {
-  res.render("index",{user:req.session.user});
+  res.render("index", {user: req.session.user});
 });
 
 

@@ -7,29 +7,16 @@ const { populate } = require("../models/User.model");
 //ROUTES GO HERE
 /* Look at current USER profile*/
 router.get("/my-profile", (req, res, next) => {
-  
-  const { user } = req.session;
+  const {user} =req.session
   res.render("user/profile", user);
 });
 
-/* Look at other USER profile*/
-router.get('/:username',(req,res,next)=>{
-  const {username} = req.params;
-
-  User.findById(id)
-  .then((user)=>{
-      Player.findOne({'_owner':`${id}`})
-      .then((player=>{
-      res.render('player/main.player.hbs',{user , player , id});
-  }))
-  })
-  .catch(error=>console.log('error',error))
-})
 
 /* Edit USER get*/
 router.get("/edit-user", (req, res, next) => {
   // obtain current user out of our req.session
-  const { user } = req.session;
+  const {user} =req.session
+
   res.render("user/edit-user", user);
 });
 /* Edit USER post*/
@@ -41,7 +28,6 @@ router.post(
     if (req.file) {
       profile_pic = req.file.path;
     }
-    console.log("req.file", req.file);
     const { role, ...restUser } = req.body;
     const { user } = req.session;
     User.findByIdAndUpdate(
@@ -76,7 +62,7 @@ router.post(
 //     });
 // });
  
-module.exports = router;
+
 
 //EXPORTS
 module.exports = router;

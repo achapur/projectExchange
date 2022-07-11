@@ -26,7 +26,7 @@ const userSchema = new Schema(
     },
     profile_pic: {
       type: String,
-      default:"/public/images/profile_pic_ipfh2f.png"
+      default:"/images/profile_pic_ipfh2f.png"
     },
     _home_country:  [{type: Schema.Types.ObjectId,
       ref: "Country"}],
@@ -34,7 +34,7 @@ const userSchema = new Schema(
       ref: "Country"}],
     role: {
       type: String,
-      enum: ["ADMIN", "ORG", "USER"],
+      enum: ["ADMIN", "ORGANIZATION", "USER"],
       default: "USER"
     },
     followers: [{type: Schema.Types.ObjectId,
