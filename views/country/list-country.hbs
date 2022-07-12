@@ -1,7 +1,10 @@
 <title>Searching countries</title>
-<main><ul>
-{{#each countries}}
-<li><img src="{{flag}}" width="25" height="25" alt="">{{name}} </li><br>
-{{/each}}
-</ul>
+<main>
+    <ul>
+        {{#each countries}}
+            <li>
+                <a href="/country/{{id}}">    <img src="{{flags.png}}" width="25" height="25" alt=""><b>{{name.common}}</b> </li></a>
+            <br>
+        {{/each}}
+    </ul>
 </main>
