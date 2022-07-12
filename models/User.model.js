@@ -47,6 +47,10 @@ const userSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Organization",
       default: null
+    },
+    step2: {
+      type: Boolean,
+      default: false
     }
   },
   { timestamps: true }
