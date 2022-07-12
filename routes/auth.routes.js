@@ -137,24 +137,41 @@ router.post("/signup", (req, res) => {
 });
 
 //post sign up step 2 USER
-router.post("/signup/student/:id", (req,res,next)=>{
-  const {id} = req.params
-  const { _host_country,_home_country,_organization} = req.body;
-  const { user } = req.session;
-  User
-    .findByIdAndUpdate(user.id, {_host_country,_home_country,_organization},{ new: true }
-    )
-    .then((user) => {
-      //overwrite current req.session
-      req.session.user = user;
-      res.redirect("/user/my-profile");
-    })
-    .catch((error) => {
-      console.log(error)
-      next(error);
-    });
-}
-);
+// router.post("/signup/student/:id", (req,res,next)=>{
+//   const {id} = req.params
+//   const { _host_country,_home_country,_organization} = req.body;
+//   const { user } = req.session;
+//   User
+//     .findByIdAndUpdate(user.id, {_host_country,_home_country,_organization},{ new: true }
+//     )
+//     .then((user) => {
+//       //overwrite current req.session
+//       req.session.user = user;
+//       res.redirect("/user/my-profile");
+//     })
+//     .catch((error) => {
+//       console.log(error)
+//       next(error);
+//     });
+// }
+// );
+//post signup2 user asyc
+router.post('/signup/student/:id', async (req,res,next)=>{
+    
+  const {id} = req.params;
+  const {_home_country, _host_country, _organization} = req.body;
+  try{
+    let student = await User
+      .findByIdAndUpdate(id, {_host_country,_home_country,_organization},{ new: true })
+      let homeCountry = await Country.findByIdAndUpdate({_home_country}, {$push:{'_students': id}})
+      let hostCountry = await Country.findByIdAndUpdate({_host_country}, {$push:{'_students': id}})
+      let organization = await Country.findByIdAndUpdate({_organization}, {$push:{'_students': id}})
+
+  }catch(error){return error}
+
+  res.redirect("/user/my-profile");
+
+})
 //post sign up step 2 ORGANIZATION
 //TODO
 
