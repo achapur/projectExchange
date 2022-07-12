@@ -1,0 +1,20 @@
+<title>Sign Up / Step 2 / World Exchangers</title>
+<form action="/auth/signup/org/{{user._id}}" method="POST">
+<br>
+   <h2>Sign Up</h2>
+   <h3>Step 2 out of 2</h3>
+   <form>
+      <label>Where are you located?
+         <select name="_home_country">
+            {{#each countries}}
+            <option value="{{_id}}">{{name.common}}</option>
+            {{/each}}
+         </select>
+      </label>
+      <br> 
+      <button type="submit">Sign Up</button>
+   </form>
+
+{{#if errorMessage}}
+   {{errorMessage}}
+{{/if}}

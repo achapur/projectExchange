@@ -10,24 +10,24 @@
          
   </head>
   <body>
-{{#if user}}
+
 <header>
     <nav class="navbar">
         <div class="container navbar-content">
     <div> <a href="/"><img src="/images/we_logo_round_mxkchc.png" widgth="50" height="50" alt=""></a></div>
     <div class="headerIcons"></div>
-        {{!-- {{#if user}} --}}
+        {{#if user}}
         <ul>
           <li><button><a href="/user/my-profile">My Profile</a></button></li>
           <li><button><a href="/auth/logout">Log Out</a></button></li>
           <li><button><a href="/">My Organization</a></button></li>
         </ul>        
-        {{!-- {{/if}} --}}
+        {{/if}}
 
         </div>
     </nav> 
 </header>
-{{/if}}
+
 
 {{{ body }}}
 

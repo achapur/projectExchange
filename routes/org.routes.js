@@ -1,7 +1,13 @@
 const router = require("express").Router();
+//Models
+const Country = require("../models/Country.model");
 const User = require("../models/User.model");
 const Organization = require("../models/Organization.model");
-const Country = require("../models/Country.model");
+//Middlewares
+const isLoggedIn = require("../middleware/isLoggedIn");
+const hasDoneStep2 = require("../middleware/hasDoneStep2");
+const {checkRole} =require("../middleware/checkRole")
+//Cloudinary file upload
 const fileUploader = require("../config/cloudinary.config");
 
 // //ROUTES GO HERE

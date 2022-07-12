@@ -6,7 +6,8 @@ module.exports = (req, res, next) => {
         //if false redirect
         return res.redirect(`/auth/signup/student/${_id}`)
       } else {
-        return res.status(403).send("Not allowed.");
+      req.user = req.session.user;
+      next();
       }
     }
 

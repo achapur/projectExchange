@@ -1,19 +1,27 @@
 const router = require("express").Router();
+//Models
+const Country = require("../models/Country.model");
 const User = require("../models/User.model");
-const req = require("express/lib/request");
+const Organization = require("../models/Organization.model");
+//Middlewares
+const isLoggedIn = require("../middleware/isLoggedIn");
+const hasDoneStep2 = require("../middleware/hasDoneStep2");
+const {checkRole} =require("../middleware/checkRole")
+//Cloudinary file upload
 const fileUploader = require("../config/cloudinary.config");
-const { populate } = require("../models/User.model");
+const req = require("express/lib/request");
+// const { populate } = require("../models/User.model");
 
 //ROUTES GO HERE
 /* Look at current USER profile*/
-router.get("/my-profile", (req, res, next) => {
+router.get("/my-profile", isLoggedIn, hasDoneStep2, (req, res, next) => {
   const {user} =req.session
   res.render("user/profile", user);
 });
 
 
 /* Edit USER get*/
-router.get("/edit-user", (req, res, next) => {
+router.get("/edit-user", isLoggedIn, hasDoneStep2,  (req, res, next) => {
   // obtain current user out of our req.session
   const {user} =req.session
 

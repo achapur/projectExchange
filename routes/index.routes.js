@@ -1,4 +1,6 @@
 const router = require("express").Router();
+const hasDoneStep2 = require("../middleware/hasDoneStep2");
+//Middlewares
 const isLoggedIn = require("../middleware/isLoggedIn");
 
 
@@ -8,7 +10,7 @@ router.get("/landing", (req, res, next) => {
 });
 
 /* lets you see homepage if you are logged in */
-router.get("/",isLoggedIn, (req, res, next) => {
+router.get("/",isLoggedIn, hasDoneStep2, (req, res, next) => {
   res.render("index", {user: req.session.user});
 });
 
