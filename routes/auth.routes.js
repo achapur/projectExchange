@@ -4,8 +4,7 @@ const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 const fileUploader = require("../config/cloudinary.config");
-const {checkRole} =require("../middleware/checkRole")
-
+const req = require("express/lib/request");
 // How many rounds should bcrypt run the salt (default [10 - 12 rounds])
 const saltRounds = 10;
 
@@ -14,47 +13,48 @@ const User = require("../models/User.model");
 const Organization = require("../models/Organization.model");
 const Country = require("../models/Country.model");
 
-// Require necessary (isLoggedOut and isLiggedIn) middleware in order to control access to specific routes
+// Middlewares
 const isLoggedOut = require("../middleware/isLoggedOut");
 const isLoggedIn = require("../middleware/isLoggedIn");
+const hasDoneStep2 = require("../middleware/hasDoneStep2");
+const {checkRole} =require("../middleware/checkRole")
 
-//get sign up step 1
+/////////////////////////////////////**ROUTES**/
+
+/////////SIGN UP GET
+//get SIGN UP Step #1
 router.get("/signup",  (req, res) => {
   res.render("auth/signup");
 });
-
-//get sign up step 2 USER
-router.get("/signup/student/:id", checkRole(["USER","ADMIN"]), (req, res, next) => {
-  const {id} =req.params
-
-  User.findByIdAndUpdate(`${id}`)
-  .then((user)=>{
-    Country
-    .find({id})
-    .sort({ name: 1 }  )
-    .then((countries)=>{
-      Organization
-      .find()
-      .then((organizations)=>{
-        res.render("auth/signup-student", {countries, organizations, user:req.session.user});
-      })
-    })
-  })
-    .catch(error=>{
-      console.log(error)
-      next (error)
-  })
+//get SIGN UP Step #2 (USER)
+router.get("/signup/user/:id", checkRole(["USER","ADMIN"]),
+async (req, res, next) => {
+  try {
+    const {id} =req.params
+    const countries = await Country.find().sort({name:1 }  )
+    const organizations = await Organization.find()
+    const {user} = req.session
+    
+    res.render("auth/signup-student", {countries, organizations, user})
+  }
+  catch(error){next(error)}
 });
 
+//get SIGN UP Step #2 (ORGANIZATION)
+router.get("/signup/org/:id", checkRole(["ORG","ADMIN"]),
+async (req, res, next) => {
+  try {
+    const {id} =req.params
+    const countries = await Country.find().sort({name:1 }  )
+    const {user} = req.session
+    res.render("auth/signup-org", {countries, user})
+  }
+  catch(error){next(error)}
+});
 
-
-//get sign up step 2 ORGANIZATION
-// router.get("/signup/organization", checkRole(["ORGANIZATION","ADMIN"]),  (req, res) => {
-//   res.render("auth/signup-org");
-// });
-
-//post sign up step 1
-router.post("/signup", (req, res) => {
+/////////SIGN UP POST
+//post SIGN UP Step #1
+router.post("/signup", isLoggedOut, (req, res) => {
   const { username, password, first_name, email, role } = req.body;
 
   if (!username) {
@@ -109,12 +109,15 @@ router.post("/signup", (req, res) => {
         // Bind the user to the session object
         if (user.role === "USER"){
           req.session.user= user;
-          const {id} =req.params;
-          console.log(user.role)
-          res.redirect("/auth/signup/student/:id")};
-        if (user.role === "ORGANIZATION"){
+          return   res.redirect(`/auth/signup/user/${user._id}`)
+        };
+
+        if (user.role === "ORG"){
           req.session.user= user;
-          res.redirect("/auth/signup/organization/:id")};
+           return res.redirect(`/auth/signup/org/${user._id}`)
+          }
+         
+
       })
       .catch((error) => {
         if (error instanceof mongoose.Error.ValidationError) {
@@ -136,51 +139,43 @@ router.post("/signup", (req, res) => {
   });
 });
 
-//post sign up step 2 USER
-// router.post("/signup/student/:id", (req,res,next)=>{
-//   const {id} = req.params
-//   const { _host_country,_home_country,_organization} = req.body;
-//   const { user } = req.session;
-//   User
-//     .findByIdAndUpdate(user.id, {_host_country,_home_country,_organization},{ new: true }
-//     )
-//     .then((user) => {
-//       //overwrite current req.session
-//       req.session.user = user;
-//       res.redirect("/user/my-profile");
-//     })
-//     .catch((error) => {
-//       console.log(error)
-//       next(error);
-//     });
-// }
-// );
-//post signup2 user asyc
-router.post('/signup/student/:id', async (req,res,next)=>{
+//post SIGN UP Step #2 USER
+router.post('/signup/user/:id', isLoggedIn, async (req,res,next)=>{
     
   const {id} = req.params;
   const {_home_country, _host_country, _organization} = req.body;
   try{
-    let student = await User
-      .findByIdAndUpdate(id, {_host_country,_home_country,_organization},{ new: true })
-      let homeCountry = await Country.findByIdAndUpdate({_home_country}, {$push:{'_students': id}})
-      let hostCountry = await Country.findByIdAndUpdate({_host_country}, {$push:{'_students': id}})
-      let organization = await Country.findByIdAndUpdate({_organization}, {$push:{'_students': id}})
+    const user = await User.findByIdAndUpdate(id, {_home_country, _host_country, _organization, step2:true}, {new:true})
+    .populate("_home_country _host_country _organization")
+    const organization = await Organization.findOneAndUpdate({_organization: organization._id, $push:{_students: user._id} })
+    const country = await Country.findOneAndUpdate({_host_country: _id, $push:{'_students': user._id} })    
+    req.session.user= user
+    res.redirect("/")
+  }catch(error){res.status(500).json({ error });
+    console.log(error)}
+});
+//post SIGN UP Step #2 ORGANIZATION
+router.post('/signup/org/:id', isLoggedIn, async (req,res,next)=>{
 
-  }catch(error){return error}
-
-  res.redirect("/user/my-profile");
-
+  const {id} = req.params;
+  const {_org_country, org_name, slogan, description, websiteURL} = req.body;
+  try{
+    const organization = await Organization.create({_org_country, org_name, slogan, description, websiteURL, _org_owner:id})
+    const user = await User.findByIdAndUpdate(id, { $set: { _organization: organization._id  }, step2: true }, {new:true})
+    .populate("_organization")
+    req.session.user=user
+    res.redirect("/")
+  }catch(error){res.status(500).json({ error });
+    console.log(error)}
 })
-//post sign up step 2 ORGANIZATION
-//TODO
 
-//get login
+//////////LOG IN
+//get LOG IN
 router.get("/login", isLoggedOut, (req, res) => {
   res.render("auth/login");
 });
 
-//post login
+//post LOG IN
 router.post("/login", isLoggedOut, (req, res, next) => {
   const { username, password } = req.body;
 
@@ -230,7 +225,8 @@ router.post("/login", isLoggedOut, (req, res, next) => {
     });
 });
 
-//get logout
+//////////LOG out
+//get LOG OUT
 router.get("/logout", isLoggedIn, (req, res) => {
   req.session.destroy((err) => {
     if (err) {

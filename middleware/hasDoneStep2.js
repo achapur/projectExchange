@@ -1,11 +1,23 @@
 module.exports = (req, res, next) => {
-    //obteain role from req.session.user
-      const { homeCountry } = req.session._home_country;
-      if (!homeCountry)) {
-        return res.redirect("/auth/signup/step:id")
+    //obtain role from req.session.user
+
+      const { step2, _id, role } = req.session.user
+      if (!step2) {
+        //if false redirect
+
+        return res.redirect(`/auth/signup/${role}/${_id}`)
       } else {
-        return res.status(403).send("Not allowed.");
+      req.user = req.session.user;
+      next();
       }
-    };
-  };
-  
+    }
+
+    //       module.exports = (req, res, next) => {
+    // //obtain role from req.session.user
+    //   const { step2, _id, role } = req.session.user
+    //   if (!step2 && (role === "USER")) {
+    //     return res.redirect(`/auth/signup/student/${_id}`)
+    //   } else {
+    //      return res.redirect(`/auth/signup/org/${_id
+    //     }`)}
+    // }

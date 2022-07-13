@@ -47,7 +47,7 @@ margin-right: 5%;
   border: #eee 3px solid;
 }
 
-/* UIKIT */
+/* LANDING */
 .homeBg {
   background:  url(/images/temporalbackground.jpg) no-repeat center center fixed; 
   background-blend-mode:multiply;
@@ -93,3 +93,13 @@ margin-right: 5%;
   margin-right: 20px;
   background-color: wheat;
 } 
+
+.landingIcons{
+  flex-direction: row;
+}
+
+.landingIcons img {
+  margin-right: -10px;
+}
+
+

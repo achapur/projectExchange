@@ -1,12 +1,14 @@
-<form action="/auth/signup/student/{{user._id}}" method="POST">
+<title>Sign Up / Step 2 / World Exchangers</title>
+<form action="/auth/signup/user/{{user._id}}" method="POST">
 <br>
    <h2>Sign Up</h2>
    <h3>Step 2 out of 2</h3>
+   <h4>Exchange Student</h4>
    <form>
       <label>What is your Home Country?
          <select name="_home_country">
             {{#each countries}}
-            <option value="{{name.common}}">{{name.common}}</option>
+            <option value="{{_id}}">{{name.common}}</option>
             {{/each}}
          </select>
       </label>
@@ -14,7 +16,7 @@
       <label>What is your Host Country?
          <select name="_host_country">
             {{#each countries}}
-            <option value="{{name.common}}">{{name.common}}</option>
+            <option value="{{_id}}">{{name.common}}</option>
             {{/each}}
          </select>
       </label>
@@ -22,16 +24,14 @@
       <label>What is your Exchange Organization?
          <select name="_organization">
             {{#each organizations}}
-            <option value="{{org_name}}">{{org_name}}</option>
+            <option value="{{_id}}">{{org_name}}</option>
             {{/each}}
          </select>
       </label>
       <br>       
       <button type="submit">Sign Up</button>
    </form>
-   {{#if role.USER}}
-   you are an exchante student
-   {{/if}}
+
 
 {{#if errorMessage}}
    {{errorMessage}}

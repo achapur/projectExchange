@@ -1,36 +1,26 @@
 const router = require("express").Router();
+//Models
+const Country = require("../models/Country.model");
 const User = require("../models/User.model");
 const Organization = require("../models/Organization.model");
-const Country = require("../models/Country.model");
+//Middlewares
+const isLoggedIn = require("../middleware/isLoggedIn");
+const hasDoneStep2 = require("../middleware/hasDoneStep2");
+const {checkRole} =require("../middleware/checkRole")
+//Cloudinary file upload
 const fileUploader = require("../config/cloudinary.config");
+const isLoggedOut = require("../middleware/isLoggedOut");
 
-// //ROUTES GO HERE
-// router.get('/org/:id',(req,res,next)=>{
-//     const {id} = req.params;
+//ROUTES GO HERE
 
-//     User.findById(id)
-//     .then((user)=>{
-//         Organization.findOne({'_org_owner':`${id}`})
-//         .populate('_students _org_owner _org_country')
-//         .then((owner=>{
-//             if(!owner._leagueOwner){
-//                 console.log('owner',coach._players);
-//                 const numPlayers = coach._players.length;
-//                 res.render('team/main-team',{user , coach , id , numPlayers});
-//             }
-//             else {
-//                 League.findById(coach._leagueOwner)
-//                 .populate('_teams')
-//                 .then((league)=>{
-//                     console.log('data',league._teams);
-//                     const data = league._teams;
-//                     const numPlayers = coach._players.length;
-//                     res.render('team/main-team',{user , coach , id , numPlayers , data , league});
-//                 })
-//             }
-//         }))
-//     })
-//     .catch(error=>console.log('error',error))
-// })
+
+router.get('/my-org/', isLoggedIn, hasDoneStep2, (req,res,next)=>{
+    const {user} = req.session
+    
+    User.findById(user._id).populate("_organization _host_country _home_country")
+    res.render("user/profile", user);
+})
+
+
 // //EXPORTS
 module.exports = router;

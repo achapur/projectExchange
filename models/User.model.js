@@ -35,7 +35,7 @@ const userSchema = new Schema(
       ref: "Country"},
     role: {
       type: String,
-      enum: ["ADMIN", "ORGANIZATION", "USER"],
+      enum: ["ADMIN", "ORG", "USER"],
       default: "USER"
     },
     followers: [{type: Schema.Types.ObjectId,
@@ -47,6 +47,10 @@ const userSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Organization",
       default: null
+    },
+    step2: {
+      type: Boolean,
+      default: false
     }
   },
   { timestamps: true }
