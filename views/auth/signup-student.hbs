@@ -1,8 +1,9 @@
 <title>Sign Up / Step 2 / World Exchangers</title>
-<form action="/auth/signup/student/{{user._id}}" method="POST">
+<form action="/auth/signup/user/{{user._id}}" method="POST">
 <br>
    <h2>Sign Up</h2>
    <h3>Step 2 out of 2</h3>
+   <h4>Exchange Student</h4>
    <form>
       <label>What is your Home Country?
          <select name="_home_country">
@@ -30,9 +31,7 @@
       <br>       
       <button type="submit">Sign Up</button>
    </form>
-   {{#if role.USER}}
-   you are an exchante student
-   {{/if}}
+
 
 {{#if errorMessage}}
    {{errorMessage}}

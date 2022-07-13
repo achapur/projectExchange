@@ -8,6 +8,11 @@
     <img src="/images/we_logo_darkmode_abbgrr.png" width="150" height="150" alt="">
    <h1>Welcome World Exchanger!  🌍</h1>
     <h2>GO WORLDWIDE!</h2>
+    <div class="landingIcons">
+    {{#each users}}
+    <a href="/user/{{_id}}"><img src="{{profile_pic}}" alt="" class="headerIcon"></a>
+    {{/each}}
+    </div>
   </div>
   
   <div class="flex-child green">

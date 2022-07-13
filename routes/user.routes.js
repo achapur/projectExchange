@@ -10,15 +10,28 @@ const {checkRole} =require("../middleware/checkRole")
 //Cloudinary file upload
 const fileUploader = require("../config/cloudinary.config");
 const req = require("express/lib/request");
+const res = require("express/lib/response");
 // const { populate } = require("../models/User.model");
 
 //ROUTES GO HERE
 /* Look at current USER profile*/
-router.get("/my-profile", isLoggedIn, hasDoneStep2, (req, res, next) => {
-  const {user} =req.session
-  res.render("user/profile", user);
-});
+// router.get("/my-profile", isLoggedIn, hasDoneStep2, (req, res, next) => {
+//   const {user} =req.session
+//   User.findById(user._id)
+//   .populate("_organization")
+//   res.render("user/profile", user);
+// });
+//currently populate not working
+router.get("/:id", isLoggedIn, hasDoneStep2, async (req, res, next) => {
+  try{
+  const {id} =req.params
 
+  const profile = await User.findById( id ).populate("_home_country _host_country _organization")
+    const {user} = req.session
+  res.render("user/profile", {profile, user})
+  }
+  catch(error){next(error)}
+});
 
 /* Edit USER get*/
 router.get("/edit-user", isLoggedIn, hasDoneStep2,  (req, res, next) => {
@@ -55,21 +68,14 @@ router.post(
   }
 );
 
-
-// GET route to retrieve and display details of a specific book
-// router.get('/books/:bookId', (req, res, next) => {
-//   const { bookId } = req.params;
- 
-//   Book.findById(bookId)
-//     .then(theBook => res.render('books/book-details.hbs', { book: theBook }))
-//     .catch(error => {
-//       console.log('Error while retrieving book details: ', error);
- 
-//       // Call the error-middleware to display the error page to the user
-//       next(error);
-//     });
+// router.get("/all", checkRole["ADMIN"], async (res,req,next)=>{
+//   try {
+//     const allUsers= await User.find().sort({username: 1})
+//      const {user} = req.session
+//     res.render("user/list-user", {allUsers, user})
+//   }
+//   catch(error){next(error)}
 // });
- 
 
 
 //EXPORTS

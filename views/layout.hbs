@@ -18,9 +18,9 @@
     <div class="headerIcons"></div>
         {{#if user}}
         <ul>
-          <li><button><a href="/user/my-profile">My Profile</a></button></li>
+          <li><button><a href="/user/{{user._id}}">My Profile</a></button></li>
           <li><button><a href="/auth/logout">Log Out</a></button></li>
-          <li><button><a href="/">My Organization</a></button></li>
+          <li><button><a href="/org/my-org/">My Organization</a></button></li>
         </ul>        
         {{/if}}
 

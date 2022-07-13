@@ -4,7 +4,7 @@ const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 const fileUploader = require("../config/cloudinary.config");
-
+const req = require("express/lib/request");
 // How many rounds should bcrypt run the salt (default [10 - 12 rounds])
 const saltRounds = 10;
 
@@ -27,34 +27,34 @@ router.get("/signup",  (req, res) => {
   res.render("auth/signup");
 });
 //get SIGN UP Step #2 (USER)
-router.get("/signup/student/:id", checkRole(["USER","ADMIN"]),
+router.get("/signup/user/:id", checkRole(["USER","ADMIN"]),
 async (req, res, next) => {
   try {
-     const {id} =req.params
-     const countries = await Country.find().sort({name:1 }  )
+    const {id} =req.params
+    const countries = await Country.find().sort({name:1 }  )
     const organizations = await Organization.find()
     const {user} = req.session
+    
     res.render("auth/signup-student", {countries, organizations, user})
   }
   catch(error){next(error)}
 });
 
 //get SIGN UP Step #2 (ORGANIZATION)
-router.get("/signup/org/:id", checkRole(["ORGANIZATION","ADMIN"]),
+router.get("/signup/org/:id", checkRole(["ORG","ADMIN"]),
 async (req, res, next) => {
   try {
-     const {id} =req.params
-     const countries = await Country.find().sort({name:1 }  )
-    const organizations = await Organization.find()
+    const {id} =req.params
+    const countries = await Country.find().sort({name:1 }  )
     const {user} = req.session
-    res.render("auth/signup-student", {countries, organizations, user})
+    res.render("auth/signup-org", {countries, user})
   }
   catch(error){next(error)}
 });
 
 /////////SIGN UP POST
 //post SIGN UP Step #1
-router.post("/signup", (req, res) => {
+router.post("/signup", isLoggedOut, (req, res) => {
   const { username, password, first_name, email, role } = req.body;
 
   if (!username) {
@@ -109,12 +109,12 @@ router.post("/signup", (req, res) => {
         // Bind the user to the session object
         if (user.role === "USER"){
           req.session.user= user;
-          return   res.redirect(`/auth/signup/student/${user._id}`)
+          return   res.redirect(`/auth/signup/user/${user._id}`)
         };
 
-        if (user.role === "ORGANIZATION"){
+        if (user.role === "ORG"){
           req.session.user= user;
-           return res.redirect(`/auth/signup/organization/${user._id}`)
+           return res.redirect(`/auth/signup/org/${user._id}`)
           }
          
 
@@ -140,23 +140,34 @@ router.post("/signup", (req, res) => {
 });
 
 //post SIGN UP Step #2 USER
-router.post('/signup/student/:id', async (req,res,next)=>{
+router.post('/signup/user/:id', isLoggedIn, async (req,res,next)=>{
     
   const {id} = req.params;
   const {_home_country, _host_country, _organization} = req.body;
   try{
-    console.log(req.body)
     const user = await User.findByIdAndUpdate(id, {_home_country, _host_country, _organization, step2:true}, {new:true})
     .populate("_home_country _host_country _organization")
+    const organization = await Organization.findOneAndUpdate({_organization: organization._id, $push:{_students: user._id} })
+    const country = await Country.findOneAndUpdate({_host_country: _id, $push:{'_students': user._id} })    
     req.session.user= user
-    res.redirect("/user/my-profile")
-
-  }catch(error){return error}
-
-
-})
+    res.redirect("/")
+  }catch(error){res.status(500).json({ error });
+    console.log(error)}
+});
 //post SIGN UP Step #2 ORGANIZATION
+router.post('/signup/org/:id', isLoggedIn, async (req,res,next)=>{
 
+  const {id} = req.params;
+  const {_org_country, org_name, slogan, description, websiteURL} = req.body;
+  try{
+    const organization = await Organization.create({_org_country, org_name, slogan, description, websiteURL, _org_owner:id})
+    const user = await User.findByIdAndUpdate(id, { $set: { _organization: organization._id  }, step2: true }, {new:true})
+    .populate("_organization")
+    req.session.user=user
+    res.redirect("/")
+  }catch(error){res.status(500).json({ error });
+    console.log(error)}
+})
 
 //////////LOG IN
 //get LOG IN

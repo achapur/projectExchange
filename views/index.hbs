@@ -1,12 +1,13 @@
 <title>Home / World Exchangers</title>
 
 <h1>Welcome {{user.first_name}}🌍</h1>
-
-{{#unless user._home_country}}
-Please select a home and host country! 
-<a href="/auth/signup/student/{{
-user._id}}">Go</a>
-{{/unless}} 
+{{#if data._host_country}}
+See your org: <a href="/org/{{data._organization._id}}"><img src="{{data._organization.org_logo}}" alt="" class="headerIcon">{{data._organization.org_name}}</a><br>
+See your host country: <a href="/country/{{data._host_country._id}}"><img src="{{data._host_country.flags.png}}" alt="" class="headerIcon">{{data._host_country.name.common}}</a>
+{{/if}}
+{{#if data.org_country}}
+hika
+{{/if}}
 <br>
 <h6>Countries:</h6>
 <button><a href="/country/list/">All countries</a></button>

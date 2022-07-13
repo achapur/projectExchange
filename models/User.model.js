@@ -35,7 +35,7 @@ const userSchema = new Schema(
       ref: "Country"},
     role: {
       type: String,
-      enum: ["ADMIN", "ORGANIZATION", "USER"],
+      enum: ["ADMIN", "ORG", "USER"],
       default: "USER"
     },
     followers: [{type: Schema.Types.ObjectId,
