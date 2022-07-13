@@ -142,16 +142,19 @@ router.post("/signup", isLoggedOut, (req, res) => {
 //post SIGN UP Step #2 USER
 router.post('/signup/user/:id', isLoggedIn, async (req,res,next)=>{
     
-  const {id} = req.params;
+  const {id} = req.params
   const {_home_country, _host_country, _organization} = req.body;
   try{
-    const user = await User.findByIdAndUpdate(id, {_home_country, _host_country, _organization, step2:true}, {new:true})
-    .populate("_home_country _host_country _organization")
-    const organization = await Organization.findOneAndUpdate({_organization: organization._id, $push:{_students: user._id} })
-    const country = await Country.findOneAndUpdate({_host_country: _id, $push:{'_students': user._id} })    
+    const user = await User.findByIdAndUpdate(id,{_home_country, _host_country, _organization, step2:true}, {new:true}).populate("_home_country _host_country _organization")
+
+    const organization = await Organization.findByIdAndUpdate(_organization._id, {$push: {_students: user._id}}, {new:true})
+
+    const country = await Country.findByIdAndUpdate(_host_country._id,{$push: {'_students': user._id} })    
+
     req.session.user= user
-    res.redirect("/")
-  }catch(error){res.status(500).json({ error });
+    res.redirect(`/user/${id}`)
+  }catch(error){
+    res.status(500).json({ error });
     console.log(error)}
 });
 //post SIGN UP Step #2 ORGANIZATION
