@@ -10,7 +10,7 @@ const hasDoneStep2 = require("../middleware/hasDoneStep2");
 //If you are not logged in as User or Organization, you go to Landing Page
 router.get("/landing", (req, res, next) => {
 
-  User.find()
+  User.find().sort("createdAt: 1")
   .limit(8).populate("_host_country")
   .then((users)=>{
       res.render("landing", {users});

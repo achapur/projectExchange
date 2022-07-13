@@ -144,33 +144,40 @@ router.post('/signup/user/:id', isLoggedIn, async (req,res,next)=>{
     
   const {id} = req.params
   const {_home_country, _host_country, _organization} = req.body;
+        const {user} = req.session
   try{
-    const user = await User.findByIdAndUpdate(id,{_home_country, _host_country, _organization, step2:true}, {new:true}).populate("_home_country _host_country _organization")
+    const user2 = await User.findByIdAndUpdate(id,{_home_country, _host_country, _organization, step2:true}, {new:true}).populate("_home_country _host_country _organization")
 
-    const organization = await Organization.findByIdAndUpdate(_organization._id, {$push: {_students: user._id}}, {new:true})
+    const organization = await Organization.findOneAndUpdate({id: _organization._id},  {new:true}, {$push: {'_students': user._id}})
 
-    const country = await Country.findByIdAndUpdate(_host_country._id,{$push: {'_students': user._id} })    
+    const country = await Country.findOneAndUpdate({id: _host_country._id}, {new:true}, {$push: {'_students': user._id} })    
 
-    req.session.user= user
+    console.log("USER2", user2 , "ORGANIZATION" , organization , "COUNTRY", country)
+
     res.redirect(`/user/${id}`)
   }catch(error){
     res.status(500).json({ error });
     console.log(error)}
 });
-//post SIGN UP Step #2 ORGANIZATION
-router.post('/signup/org/:id', isLoggedIn, async (req,res,next)=>{
 
-  const {id} = req.params;
-  const {_org_country, org_name, slogan, description, websiteURL} = req.body;
-  try{
-    const organization = await Organization.create({_org_country, org_name, slogan, description, websiteURL, _org_owner:id})
-    const user = await User.findByIdAndUpdate(id, { $set: { _organization: organization._id  }, step2: true }, {new:true})
-    .populate("_organization")
-    req.session.user=user
-    res.redirect("/")
-  }catch(error){res.status(500).json({ error });
-    console.log(error)}
-})
+
+
+//post SIGN UP Step #2 ORGANIZATION
+// router.post('/signup/org/:id', isLoggedIn, async (req,res,next)=>{
+
+//   const {id} = req.params;
+//   const {_org_country, org_name, slogan, description, websiteURL} = req.body;
+//   try{
+//     const organization = await await Organization.create({_org_country, org_name, slogan, description, websiteURL, _org_owner:id}).populate("_org_country, org_name, slogan, description, websiteURL")
+
+//     const user = await User.findByIdAndUpdate(id,{$push: {_}}, step2:true}, {new:true}).populate("_home_country _host_country _organization")
+//     const user = await User.findByIdAndUpdate(id, { $set: { _organization: organization._id  }, step2: true }, {new:true})
+//     .populate("_organization")
+//     req.session.user=user
+//     res.redirect("/")
+//   }catch(error){res.status(500).json({ error });
+//     console.log(error)}
+// })
 
 //////////LOG IN
 //get LOG IN

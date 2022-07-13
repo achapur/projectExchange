@@ -14,11 +14,13 @@ const isLoggedOut = require("../middleware/isLoggedOut");
 //ROUTES GO HERE
 
 
-router.get('/my-org/', isLoggedIn, hasDoneStep2, (req,res,next)=>{
+router.get('/:id', isLoggedIn, hasDoneStep2, (req,res,next)=>{
+    const {id} =req.params
     const {user} = req.session
-    
-    User.findById(user._id).populate("_organization _host_country _home_country")
-    res.render("user/profile", user);
+
+    Organization.findById(id).populate('_students _org_owner _org_country').then((data)=>{
+    res.render("org/my-org", {user, data});
+})
 })
 
 
