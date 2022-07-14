@@ -30,8 +30,6 @@ router.get("/:id", isLoggedIn, hasDoneStep2, (req, res, next) => {
 
   })
 
-
-
 /* Edit USER get*/
 router.get("/edit-user", isLoggedIn, hasDoneStep2,  (req, res, next) => {
   // obtain current user out of our req.session
@@ -40,14 +38,11 @@ router.get("/edit-user", isLoggedIn, hasDoneStep2,  (req, res, next) => {
   res.render("user/edit-user", user);
 });
 /* Edit USER post*/
-router.post(
-  "/edit-user",
-  fileUploader.single("profile_pic"),
-  (req, res, next) => {
+router.post( "/edit-user", fileUploader.single("profile_pic"),(req, res, next) => {
     let profile_pic;
     if (req.file) {
-      profile_pic = req.file.path;
-    }
+      profile_pic = req.file.path;  }
+
     const { role, ...restUser } = req.body;
     const { user } = req.session;
     User.findByIdAndUpdate(
