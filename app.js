@@ -41,12 +41,12 @@ const countryRoutes = require("./routes/country.routes");
 // const { collection } = require("./models/User.model");
 app.use("/country", countryRoutes);
 
-// const organizationRoutes = require("./routes/organization.routes");
-// app.use("/org", organizationRoutes);
+const orgRoutes = require("./routes/org.routes");
+app.use("/org", orgRoutes);
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
 
 
-
 module.exports = app;
+

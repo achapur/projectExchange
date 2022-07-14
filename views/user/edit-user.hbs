@@ -1,4 +1,4 @@
-<title>Edit {{username}}</title>
+<title>Edit / {{username}}</title>
 
 {{! cuando mando archvios es necesario agregar la propiedad enctype="multipart" }}
 
@@ -7,10 +7,10 @@
   <input type="text" name="first_name" placeholder="{{first_name}}" value="{{first_name}}"/>
 
   <label for="">Username</label>
-  <input type="text" name="username" placeholder="{{username}}" value="{{username}}" />
+  <input type="text" name="username" placeholder="{{username}}" value="{{username}}" readonly/>
 
   <label for="">Email</label>
-  <input type="text" name="email" placeholder="{{email}}" value="{{email}}"/>
+  <input type="text" name="email" placeholder="{{email}}" value="{{email}}" readonly/>
 
   <label for="">Profile Pic</label>
   <input type="file" name="profile_pic" placeholder="{{profile_pic}}"/>

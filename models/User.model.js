@@ -16,9 +16,10 @@ const userSchema = new Schema(
     },
     email: {
       type: String,
+      match: [/^\S+@\S+\.\S+$/, 'Please use a valid email address.'],
       unique: true,
       trim: true,
-      required: true
+      required: [true, 'Email is required']
     },
     password: {
       type: String,
@@ -26,12 +27,12 @@ const userSchema = new Schema(
     },
     profile_pic: {
       type: String,
-      default:"https://res.cloudinary.com/dtdqsyryk/image/upload/v1656981437/profile_pic_ipfh2f.png"
+      default:"/images/profile_pic_ipfh2f.png"
     },
-    _home_country:  [{type: Schema.Types.ObjectId,
-      ref: "Country"}],
-    _host_country:  [{type: Schema.Types.ObjectId,
-      ref: "Country"}],
+    _home_country:  {type: Schema.Types.ObjectId,
+      ref: "Country"},
+    _host_country: {type: Schema.Types.ObjectId,
+      ref: "Country"},
     role: {
       type: String,
       enum: ["ADMIN", "ORG", "USER"],
@@ -42,10 +43,15 @@ const userSchema = new Schema(
     ,
     following: [{type: Schema.Types.ObjectId,
       ref: "User"}],
-    _organization: [{
+    _organization: {
       type: Schema.Types.ObjectId,
-      ref: "Organization"
-    }]
+      ref: "Organization",
+      default: null
+    },
+    step2: {
+      type: Boolean,
+      default: false
+    }
   },
   { timestamps: true }
 );

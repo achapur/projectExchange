@@ -1,62 +1,58 @@
 const router = require("express").Router();
+//Models
 const Country = require("../models/Country.model");
+const User = require("../models/User.model");
+const Organization = require("../models/Organization.model");
+//Middlewares
 const isLoggedIn = require("../middleware/isLoggedIn");
-//para axios
-const axios = require("axios");
-const async = require("hbs/lib/async");
-
+const hasDoneStep2 = require("../middleware/hasDoneStep2");
+const {checkRole} =require("../middleware/checkRole")
 
 //COUNTRIES LIST
-//All countries
-    // router.get("/list", (req, res, next) => {
-    //   axios
-    //     .get("https://restcountries.com/v3.1/all")
-    //     .then((responseAxios) => {
-        
-    //       //.sort(function(a, b) 
-    //       let countries= responseAxios.data.map((country)=>{
-    //         return {name: country.name.common, flag: country.flags.png}       
-    //       })
+router.get("/list", isLoggedIn, hasDoneStep2, (req, res, next) => {
+  const {user} = req.session
+  Country.find()
+  .sort({ name: 1 })
+  .then((countries)=>{
+    res.render("country/list-country", {countries, user})
+  })
+  .catch((error)=>{
+    console.log("error", error)
+    next()
+  })
+});
 
-    //             console.log("respuesta de axios:", countries);
-    //       res.render("country/list-country", {countries});
-    //     })
-    //     .catch((error) => {
-    //       next(error);
-    //     });
-    // });
+//COUNTRY PROFILE by id
+// router.get("/:id",isLoggedIn, hasDoneStep2, (req, res, next) => {
+//   const {id} = req.params;
+//   Country.findById(id)
+//   .then((country)=>{
+//     console.log(country)
+//     res.render("country/profile",  country)
+//   })
+//   .catch((error)=>{
+//     console.log("error", error)
+//     next()
+//   })
+// });
+// router.get("/:id", isLoggedIn, hasDoneStep2, async(req, res, next) => {
+//   try{
+//   const {id} =req.params
+//     const {user} = req.session
 
+//   const country = await Country.findById( id )
+//   const users = await User.find({'_home_country': `${id}`}).populate("username profile_pic")
+//   res.render("country/list-country", {country, users})
+//   }
+//   catch(error){next(error)}
+// });
+router.get("/:id", isLoggedIn, hasDoneStep2, (req, res, next) => {
+    const {id} =req.params
+    const {user} = req.session
 
-    // COUNTRY PROFILE (WASNT WORKING)
-    
-//     router.get("/:code", async (req, res, next) => {
-//                 const {code} = req.params
-// let miObject = {}
-// try {
-//         const singleCountry2 = await axios.get(`  `)
-//     //let miObject = {name, country, population, flag,code}
-//     // singleCountry2.map(country => {country.name})
-//     const {data} = singleCountry2
-//     let miObject =   data.map(country=>{
-//     return {name: country.name.common, flag: country.flags.png}       
-//     })
-//     console.log(singleCountry2)
-//     res.render("country/profile", {miObject});
-//     } catch (error) {
-//         console.log(error)
-//     }
+  Country.findById(id).populate('_students').then((data)=>{
+res.render("country/profile", {user, data});
+  })
+})
 
-//     });
-
-      router.get("/list", (req, res, next) => {
-        Country.find()
-        .then((countries)=>{
-          console.log("countries", countries)
-          res.render("country/list-country", {countries})
-        })
-        .catch((error)=>{
-          console.log("error", error)
-          next()
-        })
-      });
 module.exports = router;

@@ -3,24 +3,59 @@ const router = require("express").Router();
 // ℹ️ Handles password encryption
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
-
+const fileUploader = require("../config/cloudinary.config");
+const req = require("express/lib/request");
 // How many rounds should bcrypt run the salt (default [10 - 12 rounds])
 const saltRounds = 10;
 
 // Require the User model in order to interact with the database
 const User = require("../models/User.model");
 const Organization = require("../models/Organization.model");
+const Country = require("../models/Country.model");
 
-// Require necessary (isLoggedOut and isLiggedIn) middleware in order to control access to specific routes
+// Middlewares
 const isLoggedOut = require("../middleware/isLoggedOut");
 const isLoggedIn = require("../middleware/isLoggedIn");
+const hasDoneStep2 = require("../middleware/hasDoneStep2");
+const {checkRole} =require("../middleware/checkRole")
 
+/////////////////////////////////////**ROUTES**/
+
+/////////SIGN UP GET
+//get SIGN UP Step #1
 router.get("/signup",  (req, res) => {
   res.render("auth/signup");
 });
+//get SIGN UP Step #2 (USER)
+router.get("/signup/user/:id", checkRole(["USER","ADMIN"]),
+async (req, res, next) => {
+  try {
+    const {id} =req.params
+    const countries = await Country.find().sort({name:1 }  )
+    const organizations = await Organization.find()
+    const {user} = req.session
+    
+    res.render("auth/signup-student", {countries, organizations, user})
+  }
+  catch(error){next(error)}
+});
 
-router.post("/signup", (req, res) => {
-  const { username, password, first_name, email } = req.body;
+//get SIGN UP Step #2 (ORGANIZATION)
+router.get("/signup/org/:id", checkRole(["ORG","ADMIN"]),
+async (req, res, next) => {
+  try {
+    const {id} =req.params
+    const countries = await Country.find().sort({name:1 }  )
+    const {user} = req.session
+    res.render("auth/signup-org", {countries, user})
+  }
+  catch(error){next(error)}
+});
+
+/////////SIGN UP POST
+//post SIGN UP Step #1
+router.post("/signup", isLoggedOut, (req, res) => {
+  const { username, password, first_name, email, role } = req.body;
 
   if (!username) {
     return res.status(400).render("auth/signup", {
@@ -47,12 +82,13 @@ router.post("/signup", (req, res) => {
   */
 
   // Search the database for a user with the username submitted in the form
-  User.findOne({ username }).then((found) => {
+  User.findOne({ username })
+  .then((found) => {
     // If the user is found, send the message username is taken
     if (found) {
       return res
         .status(400)
-        .render("auth.signup", { errorMessage: "Username already taken." });
+        .render("auth/signup", { errorMessage: "Username already taken." });
     }
 
     // if user is not found, create a new user - start with hashing the password
@@ -66,12 +102,22 @@ router.post("/signup", (req, res) => {
           password: hashedPassword,
           first_name,
           email,
+          role,
         });
       })
       .then((user) => {
         // Bind the user to the session object
-        req.session.user = user;
-        res.redirect("/");
+        if (user.role === "USER"){
+          req.session.user= user;
+          return   res.redirect(`/auth/signup/user/${user._id}`)
+        };
+
+        if (user.role === "ORG"){
+          req.session.user= user;
+           return res.redirect(`/auth/signup/org/${user._id}`)
+          }
+         
+
       })
       .catch((error) => {
         if (error instanceof mongoose.Error.ValidationError) {
@@ -93,10 +139,51 @@ router.post("/signup", (req, res) => {
   });
 });
 
+//post SIGN UP Step #2 USER
+router.post('/signup/user/:id', isLoggedIn, async (req,res,next)=>{
+    
+  const {id} = req.params
+  const {_home_country, _host_country, _organization} = req.body;
+
+  try{
+    const user2 = await User.findByIdAndUpdate(id,{_home_country, _host_country, _organization, step2:true}, {new:true})
+    
+    const organization = await Organization.findByIdAndUpdate({_id: _organization}, {$push: {'_students': id}})
+
+    const country = await Country.findByIdAndUpdate({_id: _host_country}, {$push: {'_students': id} })    
+    
+    res.redirect(`/user/${id}`)
+  }catch(error){
+    res.status(500).json({ error });
+    console.log(error)}
+});
+
+
+
+//post SIGN UP Step #2 ORGANIZATION
+// router.post('/signup/org/:id', isLoggedIn, async (req,res,next)=>{
+
+//   const {id} = req.params;
+//   const {_org_country, org_name, slogan, description, websiteURL} = req.body;
+//   try{
+//     const organization = await await Organization.create({_org_country, org_name, slogan, description, websiteURL, _org_owner:id}).populate("_org_country, org_name, slogan, description, websiteURL")
+
+//     const user = await User.findByIdAndUpdate(id,{$push: {_}}, step2:true}, {new:true}).populate("_home_country _host_country _organization")
+//     const user = await User.findByIdAndUpdate(id, { $set: { _organization: organization._id  }, step2: true }, {new:true})
+//     .populate("_organization")
+//     req.session.user=user
+//     res.redirect("/")
+//   }catch(error){res.status(500).json({ error });
+//     console.log(error)}
+// })
+
+//////////LOG IN
+//get LOG IN
 router.get("/login", isLoggedOut, (req, res) => {
   res.render("auth/login");
 });
 
+//post LOG IN
 router.post("/login", isLoggedOut, (req, res, next) => {
   const { username, password } = req.body;
 
@@ -146,6 +233,8 @@ router.post("/login", isLoggedOut, (req, res, next) => {
     });
 });
 
+//////////LOG out
+//get LOG OUT
 router.get("/logout", isLoggedIn, (req, res) => {
   req.session.destroy((err) => {
     if (err) {
