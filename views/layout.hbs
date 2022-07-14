@@ -13,10 +13,10 @@
 
 <header>
     <nav class="navbar">
-        <div class="container navbar-content">
+        <div class="container navbar-content">        {{#if user}}
     <div> <a href="/"><img src="/images/we_logo_round_mxkchc.png" widgth="50" height="50" alt=""></a></div>
     <div class="headerIcons"></div>
-        {{#if user}}
+
         <ul>
           <li><button><a href="/user/{{user._id}}">My Profile</a></button></li>
           <li><button><a href="/auth/logout">Log Out</a></button></li>

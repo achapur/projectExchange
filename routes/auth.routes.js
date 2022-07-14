@@ -144,16 +144,14 @@ router.post('/signup/user/:id', isLoggedIn, async (req,res,next)=>{
     
   const {id} = req.params
   const {_home_country, _host_country, _organization} = req.body;
-        const {user} = req.session
+
   try{
-    const user2 = await User.findByIdAndUpdate(id,{_home_country, _host_country, _organization, step2:true}, {new:true}).populate("_home_country _host_country _organization")
+    const user2 = await User.findByIdAndUpdate(id,{_home_country, _host_country, _organization, step2:true}, {new:true})
+    
+    const organization = await Organization.findByIdAndUpdate({_id: _organization}, {$push: {'_students': id}})
 
-    const organization = await Organization.findOneAndUpdate({id: _organization._id},  {new:true}, {$push: {'_students': user._id}})
-
-    const country = await Country.findOneAndUpdate({id: _host_country._id}, {new:true}, {$push: {'_students': user._id} })    
-
-    console.log("USER2", user2 , "ORGANIZATION" , organization , "COUNTRY", country)
-
+    const country = await Country.findByIdAndUpdate({_id: _host_country}, {$push: {'_students': id} })    
+    
     res.redirect(`/user/${id}`)
   }catch(error){
     res.status(500).json({ error });
